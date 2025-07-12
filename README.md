@@ -26,3 +26,6 @@ Many people throw away clothes that are still in good condition. ReWear helps re
 ## 👥 Team Name
 404NotFound
 
+## 🔗 Problem Statement Link
+[Click here to view the problem statement](https://github.com/kkhushie/ReWear)
+

@@ -1,31 +1,79 @@
-# ReWear – Community Clothing Exchange
+# 👚 ReWear – Community Clothing Exchange
 
 ## 🧩 Problem Statement
-Many people throw away clothes that are still in good condition. ReWear helps reduce textile waste by allowing users to swap or donate clothes using a web-based platform. Users can exchange items directly or use a point-based system.
+Every year, wearable clothing is thrown away due to lack of access to platforms that promote sustainable fashion. ReWear aims to reduce textile waste by enabling people to donate or exchange clothing easily — either via direct swaps or a point-based redemption system. The platform encourages users to reuse garments rather than discard them.
 
-## 💡 Features
+---
 
-- **User Authentication**  
-  Email/password login and signup
+## 🌐 Overview
+**ReWear** is a web-based platform that enables users to:
 
-- **Landing Page**  
-  Intro, call-to-actions like “Start Swapping”, “Browse Items”, and featured clothes
+- Exchange unused clothes with others in their community
+- List and browse pre-loved garments
+- Redeem points earned from donating clothes
+- Promote a more sustainable lifestyle
 
-- **User Dashboard**  
-  View profile, points balance, listed items, and swap history
+---
 
-- **Item Detail Page**  
-  View images, description, uploader info, swap or redeem option
+## 🚀 Key Features
 
-- **Add Item Page**  
-  Upload clothes with details like size, condition, and tags
+### ✅ User Authentication
+- Email/password signup and login system
 
-- **Admin Panel**  
-  Approve/reject listings and manage reported items
+### 🏠 Landing Page
+- Introduction to the platform
+- Calls-to-action: “Start Swapping”, “Browse Items”, “List an Item”
+- Featured items carousel
+
+### 👤 User Dashboard
+- View profile details and points balance
+- Uploaded items list
+- Ongoing and completed swap history
+
+### 👕 Item Detail Page
+- Image gallery and full description
+- Uploader information
+- Buttons: “Swap Request” or “Redeem via Points”
+- Item availability status
+
+### ➕ Add New Item Page
+- Upload images
+- Enter title, description, category, type, size, condition, and tags
+- Submit to list item
+
+### 🛠️ Admin Role
+- Approve or reject item listings
+- Remove spam/inappropriate items
+- Lightweight admin panel for platform management
+
+---
 
 ## 👥 Team Name
 404NotFound
 
-## 🔗 Problem Statement Link
-[Click here to view the problem statement](https://github.com/kkhushie/ReWear)
+## 📧 Contact Email
+raisuhana6356@gmail.com
 
+---
+
+## 🛠️ Tech Stack
+
+- **Frontend**: React.js (with Tailwind CSS or Material UI)
+- **Backend**: Node.js + Express.js
+- **Database**: MongoDB (Mongoose ODM)
+- **Authentication**: JWT (JSON Web Tokens)
+- **Others**:
+  - Cloudinary (for image upload & storage)
+  - Google Maps API (for optional location tagging)
+
+
+## 💡 Future Enhancements
+- Mobile-responsive UI
+- Gamified badge system
+- Nearby swap suggestions using geolocation
+- Delivery integration for non-local swaps
+
+---
+
+## 🤝 Contributing
+Pull requests are welcome! For major changes, please open an issue first to discuss what you would like to change.

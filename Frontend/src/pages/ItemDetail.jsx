@@ -1,4 +1,6 @@
 import { useParams } from "react-router-dom";
+import { Link } from 'react-router-dom';
+
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Navbar from "../components/Navbar";
@@ -15,6 +17,7 @@ const ItemDetail = () => {
     try {
       const res = await axios.get(`http://localhost:3000/api/products/${id}`);
       setProduct(res.data.product);
+      console.log(res.data.product);
       const related = await axios.get(`http://localhost:3000/api/products/users/${res.data.product.owner._id}/products`);
       console.log(related.data);
       setRelatedItems(related.data);
@@ -53,7 +56,7 @@ const ItemDetail = () => {
 
           {/* Details */}
           <div className="bg-white p-6 rounded-xl shadow space-y-4">
-            <p><strong>Uploader:</strong> {product.uploader || "N/A"}</p>
+            <p><strong>Uploader:</strong> {product.owner.username || "N/A"}</p>
             <p><strong>Size:</strong> {product.size}</p>
             <p><strong>Condition:</strong> {product.condition}</p>
             <p><strong>Description:</strong> {product.description}</p>
@@ -77,27 +80,31 @@ const ItemDetail = () => {
           </div>
         </div>
 
-        {/* Previous Listings */}
-        {relatedItems.length > 0 && (
-          <div className="mt-12">
-            <h3 className="text-2xl font-semibold mb-4">Previous Listings:</h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-              {relatedItems
-                .filter((item) => item._id !== product._id) // Exclude current product
-                .map((item, idx) => (
-                  <div key={idx} className="bg-white p-4 rounded shadow">
-                    <img
-                      src={item.images?.[0]}
-                      alt={item.title}
-                      className="w-full h-[180px] object-cover rounded"
-                    />
-                    <h4 className="mt-2 font-semibold text-blue-700">{item.title}</h4>
-                    <p className="text-sm text-gray-600">{item.condition}</p>
-                  </div>
-                ))}
-            </div>
-          </div>
-        )}
+{/* Previous Listings */}
+{relatedItems.length > 0 && (
+  <div className="mt-12">
+    <h3 className="text-2xl font-semibold mb-4">Previous Listings:</h3>
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+      {relatedItems
+        .filter((item) => item._id !== product._id) // Exclude current product
+        .map((item) => (
+          <Link
+            key={item._id}
+            to={`/item/${item._id}`}
+            className="bg-white p-4 rounded shadow hover:shadow-md transition block"
+          >
+            <img
+              src={item.images?.[0] || "https://via.placeholder.com/300x200?text=No+Image"}
+              alt={item.title}
+              className="w-full h-[180px] object-cover rounded"
+            />
+            <h4 className="mt-2 font-semibold text-blue-700">{item.title}</h4>
+            <p className="text-sm text-gray-600">{item.condition}</p>
+          </Link>
+        ))}
+    </div>
+  </div>
+)}
       </div>
     </div>
   );

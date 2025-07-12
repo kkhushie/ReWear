@@ -7,16 +7,23 @@ const Dashboard = () => {
   const [listings, setListings] = useState([]);
   const [purchases, setPurchases] = useState([]);
 
-  const storedUser = localStorage.getItem("rewear_user");
   useEffect(() => {
+    const storedUser = localStorage.getItem("rewear_user");
     if (storedUser) {
-        const parsedUser = JSON.parse(storedUser);
-        setUser(parsedUser);
-
-      // Fetch user listings and purchases
-      fetchUserData(parsedUser.id);
+      const parsedUser = JSON.parse(storedUser);
+      const userId = parsedUser.id;
+      fetchUserDetails(userId);
+      fetchUserData(userId);
     }
   }, []);
+  const fetchUserDetails = async (userId) => {
+    try {
+      const res = await axios.get(`http://localhost:3000/api/users/${userId}`);
+      setUser(res.data.user); // Assuming res.data = { user: { ... } }
+    } catch (err) {
+      console.error("Failed to fetch user details", err);
+    }
+  };
 
   const fetchUserData = async (userId) => {
     try {
@@ -40,9 +47,17 @@ const Dashboard = () => {
       <div className="bg-white shadow-lg rounded-lg p-6 mt-2">
         {/* Header */}
         <div className="flex flex-col md:flex-row items-center gap-6 mb-6">
-          <div className="w-32 h-32 rounded-full bg-gray-300">
-            <img src={user?.profileImage  || "https://img.freepik.com/premium-vector/profile-picture-placeholder-avatar-silhouette-gray-tones-icon-colored-shapes-gradient_1076610-40164.jpg?semt=ais_hybrid&w=740"} alt="" />
-          </div>
+        <div className="w-32 h-32 rounded-full overflow-hidden border-4 border-white shadow-md bg-gray-100 relative group">
+  <img
+    src={user?.profileImage || "https://..."}
+    alt="Profile"
+    className="w-full h-full object-cover"
+  />
+  <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition">
+    <p className="text-white text-sm">Edit</p>
+  </div>
+</div>
+
 
           <div className="flex-1 space-y-2">
             <div className="grid grid-cols-2 md:grid-cols-3 gap-2 text-sm text-gray-600">

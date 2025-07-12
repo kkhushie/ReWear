@@ -18,26 +18,47 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    
+    setError("");
+  
     try {
       const res = await axios.post(`${API}/api/auth/login`, {
         email: formData.email,
         password: formData.password
       });
-
+  
       const { token, user } = res.data;
       localStorage.setItem("rewear_token", token);
-    localStorage.setItem("rewear_user", JSON.stringify(user));
-      
-      toast.success("Logged in successfully!");
+      localStorage.setItem("rewear_user", JSON.stringify(user));
+  
+      toast.success(`Welcome back, ${user.username}! 👋`, {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "colored",
+      });
+  
       navigate("/dashboard");
     } catch (err) {
       const message = err.response?.data?.message || "Login failed. Please try again.";
-      toast.error(message);
+      setError(message);
+  
+      toast.error(message, {
+        position: "top-right",
+        autoClose: 4000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "colored",
+      });
     } finally {
       setLoading(false);
     }
   };
+  
 
 
   return (

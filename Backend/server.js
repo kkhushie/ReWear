@@ -11,6 +11,8 @@ app.use(cors())
 
 //routes import
 const authRoutes=require('./routes/auth.routes')
+const productRoutes = require('./routes/product.routes');
+const userRoutes = require('./routes/user.routes');
 
 //db connection
 const connectDB = require('./config/db')
@@ -24,6 +26,8 @@ catch (err) {
 
 //all routes
 app.use("/api/auth",authRoutes)
+app.use("/api/products", productRoutes);
+app.use("/api/users", userRoutes);
 
 
 app.listen(process.env.PORT,()=>{

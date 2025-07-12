@@ -20,6 +20,24 @@ const userSchema = new mongoose.Schema({
     required: true,
     minlength: 6,
   },
+  profileImage: {
+    type: String,
+    default: "", // Cloudinary URL or static path
+  },
+  bio: {
+    type: String,
+    maxlength: 250,
+    default: "",
+  },
+  location: {
+    type: String,
+    default: "",
+  },
+  socialLinks: {
+    instagram: { type: String, default: "" },
+    twitter: { type: String, default: "" },
+    website: { type: String, default: "" },
+  },
   isAdmin: {
     type: Boolean,
     default: false,
@@ -32,6 +50,12 @@ const userSchema = new mongoose.Schema({
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Product",
+    }
+  ],
+  swaps: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Swap", // If you plan to track item swaps
     }
   ],
 }, { timestamps: true });

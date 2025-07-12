@@ -1,40 +1,48 @@
 import { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
+import axios from "axios";
 
 const Dashboard = () => {
   const [user, setUser] = useState(null);
   const [listings, setListings] = useState([]);
   const [purchases, setPurchases] = useState([]);
 
+  const storedUser = localStorage.getItem("rewear_user");
   useEffect(() => {
-    const storedUser = localStorage.getItem("rewear_user");
     if (storedUser) {
-      setUser(JSON.parse(storedUser));
+        const parsedUser = JSON.parse(storedUser);
+        setUser(parsedUser);
+
+      // Fetch user listings and purchases
+      fetchUserData(parsedUser.id);
     }
-
-    // Dummy data (replace with API calls later)
-    setListings([
-      { id: 1, name: "Blue Shirt" },
-      { id: 2, name: "Red Dress" },
-      { id: 3, name: "Sneakers" },
-      { id: 4, name: "Hoodie" },
-    ]);
-
-    setPurchases([
-      { id: 1, name: "Denim Jacket" },
-      { id: 2, name: "White Top" },
-      { id: 3, name: "Black Jeans" },
-    ]);
   }, []);
+
+  const fetchUserData = async (userId) => {
+    try {
+      // Fetch user's own listings
+      const listingsRes = await axios.get(`http://localhost:3000/api/products/users/${userId}/products`);
+      setListings(listingsRes.data);
+      console.log(listingsRes.data);
+
+      // Fetch user's purchases (you need to have this API)
+      const purchasesRes = await axios.get(`http://localhost:3000/api/users/${userId}/purchases`);
+      setPurchases(purchasesRes.data);
+    } catch (err) {
+      console.error("Failed to fetch dashboard data", err);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gray-100 p-6">
-                <Navbar/>
+      <Navbar />
 
       <div className="bg-white shadow-lg rounded-lg p-6 mt-2">
         {/* Header */}
         <div className="flex flex-col md:flex-row items-center gap-6 mb-6">
-          <div className="w-32 h-32 rounded-full bg-gray-300"></div>
+          <div className="w-32 h-32 rounded-full bg-gray-300">
+            <img src={user?.profileImage  || "https://img.freepik.com/premium-vector/profile-picture-placeholder-avatar-silhouette-gray-tones-icon-colored-shapes-gradient_1076610-40164.jpg?semt=ais_hybrid&w=740"} alt="" />
+          </div>
 
           <div className="flex-1 space-y-2">
             <div className="grid grid-cols-2 md:grid-cols-3 gap-2 text-sm text-gray-600">
@@ -52,28 +60,55 @@ const Dashboard = () => {
           </div>
         </div>
 
-        {/* Listings */}
-        <div className="mb-8">
-          <h3 className="text-lg font-semibold mb-3">My Listings</h3>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-            {listings.map((item) => (
-              <div key={item.id} className="bg-gray-200 rounded-md h-32 flex items-center justify-center text-gray-700 font-medium">
-                {item.name}
-              </div>
-            ))}
+    {/* Listings */}
+<div className="mb-8">
+  <h3 className="text-lg font-semibold mb-3">My Listings</h3>
+  {listings.length === 0 ? (
+    <p className="text-gray-600 text-sm">You haven't listed anything yet.</p>
+  ) : (
+    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-5">
+      {listings.map((item) => (
+        <div
+          key={item._id}
+          className="bg-white rounded-xl overflow-hidden shadow hover:shadow-md transition duration-200"
+        >
+          <img
+            src={item.images?.[0] || "https://via.placeholder.com/200"}
+            alt={item.title}
+            className="w-full h-40 object-cover"
+          />
+          <div className="p-3">
+            <h4 className="font-semibold text-blue-700 truncate">{item.title}</h4>
+            <p className="text-sm text-gray-600">{item.condition}</p>
+            <p
+              className={`text-xs mt-1 inline-block px-2 py-1 rounded-full font-medium ${
+                item.isAvailable ? "bg-green-100 text-green-700" : "bg-red-100 text-red-600"
+              }`}
+            >
+              {item.isAvailable ? "Available" : "Not Available"}
+            </p>
           </div>
         </div>
+      ))}
+    </div>
+  )}
+</div>
+
 
         {/* Purchases */}
         <div>
           <h3 className="text-lg font-semibold mb-3">My Purchases</h3>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-            {purchases.map((item) => (
-              <div key={item.id} className="bg-gray-200 rounded-md h-32 flex items-center justify-center text-gray-700 font-medium">
-                {item.name}
-              </div>
-            ))}
-          </div>
+          {purchases.length === 0 ? (
+            <p className="text-gray-600 text-sm">No purchases yet.</p>
+          ) : (
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+              {purchases.map((item) => (
+                <div key={item._id} className="bg-gray-200 rounded-md h-32 flex items-center justify-center text-gray-700 font-medium">
+                  {item.title}
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </div>

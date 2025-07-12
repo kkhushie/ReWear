@@ -6,6 +6,7 @@ import Home from './pages/Home'
 import ProtectedRoute from './components/ProtectedRoute';
 import Browse from './pages/Browse';
 import ItemDetail from './pages/ItemDetail';
+import AddItem from './pages/AddItem';
 
 // import ErrorBoundary from './components/ErrorBoundary';
 
@@ -24,6 +25,14 @@ function App() {
       element={
         <ProtectedRoute>
           <Dashboard />
+        </ProtectedRoute>
+      }
+    />
+  <Route
+      path="/upload"
+      element={
+        <ProtectedRoute>
+          <AddItem />
         </ProtectedRoute>
       }
     />

@@ -6,8 +6,10 @@ const cookieParser=require('cookie-parser')
 
 app.use(express.json());
 app.use(cookieParser())
-app.use(cors())
-
+app.use(cors({
+    origin: "http://localhost:5173", // your frontend
+    credentials: true
+  }));
 
 //routes import
 const authRoutes=require('./routes/auth.routes')

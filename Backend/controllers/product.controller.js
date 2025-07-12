@@ -6,9 +6,9 @@ exports.createProduct = async (req, res) => {
         title, description, category, type, size, condition, tags,
         color, pointsRequired, images
       } = req.body;
-  
+  console.log(req.user)
       const owner = req.user.id; // assuming JWT middleware adds req.user
-  
+      
       const newProduct = await Product.create({
         title, description, category, type, size, condition, tags,
         color, pointsRequired, images, owner
@@ -22,17 +22,23 @@ exports.createProduct = async (req, res) => {
   
   exports.getAllProducts = async (req, res) => {
     try {
-      const products = await Product.find({
+      const query = {
         isAvailable: true,
-        approvedByAdmin: true
-      }).populate("owner", "username email");
+        approvedByAdmin: true,
+      };
+  
+      // Optional category filtering
+      if (req.query.category) {
+        query.category = req.query.category;
+      }
+  
+      const products = await Product.find(query).populate("owner", "username email");
   
       res.status(200).json({ success: true, products });
     } catch (error) {
       res.status(500).json({ success: false, message: "Error fetching products", error });
     }
   };
-
   exports.getProductById = async (req, res) => {
     try {
       const product = await Product.findById(req.params.id).populate("owner", "username email profileImage");
@@ -52,3 +58,5 @@ exports.createProduct = async (req, res) => {
     const products = await Product.find({ owner: req.params.userId });
     res.json(products);
   }
+
+  

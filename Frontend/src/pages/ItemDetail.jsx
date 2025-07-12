@@ -72,12 +72,26 @@ const ItemDetail = () => {
               </div>
             </div>
 
-            <button className={`mt-4 px-5 py-2 rounded-lg font-semibold text-white ${
-              product.isAvailable ? "bg-green-600" : "bg-gray-400"
-            }`}>
-              {product.isAvailable ? "Available / Swap" : "Not Available"}
-            </button>
-          </div>
+            {product.isAvailable ? (
+  <div className="flex flex-wrap gap-4 mt-4">
+    <button
+      className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg font-semibold shadow"
+      onClick={() => handleSwapRequest(product._id)}
+    >
+      Swap Request
+    </button>
+    <button
+      className="bg-yellow-500 hover:bg-yellow-600 text-white px-5 py-2 rounded-lg font-semibold shadow"
+      onClick={() => handleRedeemPoints(product._id)}
+    >
+      Redeem via Points
+    </button>
+  </div>
+) : (
+  <button className="mt-4 px-5 py-2 rounded-lg font-semibold text-white bg-gray-400 cursor-not-allowed">
+    Not Available
+</button>
+)}          </div>
         </div>
 
 {/* Previous Listings */}

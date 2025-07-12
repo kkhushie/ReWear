@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import axios from "axios";
 
@@ -54,7 +55,7 @@ const Dashboard = () => {
     className="w-full h-full object-cover"
   />
   <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition">
-    <p className="text-white text-sm">Edit</p>
+    <Link className="text-white text-sm">Edit</Link>
   </div>
 </div>
 
@@ -77,8 +78,15 @@ const Dashboard = () => {
 
     {/* Listings */}
 <div className="mb-8">
-  <h3 className="text-lg font-semibold mb-3">My Listings</h3>
-  {listings.length === 0 ? (
+<div className="flex justify-between items-center mb-3">
+  <h3 className="text-lg font-semibold">My Listings</h3>
+  <Link
+    to= "/upload" 
+    className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition text-sm"
+  >
+    + Add New Item
+  </Link>
+</div>  {listings.length === 0 ? (
     <p className="text-gray-600 text-sm">You haven't listed anything yet.</p>
   ) : (
     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-5">
